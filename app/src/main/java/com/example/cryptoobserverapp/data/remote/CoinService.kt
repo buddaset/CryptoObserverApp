@@ -9,14 +9,14 @@ import retrofit2.http.Query
 interface CoinService {
 
 
-    @GET("/top/tatalvolfull")
+    @GET("data/top/tatalvolfull")
     suspend fun getCoins(
         @Query("limit") limit: Int = 10
     ): CoinNamesResponse
 
 
-    @GET("/pricemultifull")
-    fun getFullPriceList(
+    @GET("data/pricemultifull")
+    suspend fun getFullPriceList(
         @Query(QUERY_PARAM_FROM_SYMBOLS) fSyms: String,
         @Query(QUERY_PARAM_TO_SYMBOLS) tSyms: String = CURRENCY
     ): CoinInfoJsonContainerResponse
