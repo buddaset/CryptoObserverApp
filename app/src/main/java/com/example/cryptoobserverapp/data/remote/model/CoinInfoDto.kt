@@ -2,7 +2,7 @@ package com.example.cryptoobserverapp.data.remote.model
 
 import kotlinx.serialization.SerialName
 
-data class CoinPriceInfo(
+data class CoinInfoDto(
     @SerialName("FROMSYMBOL")
     val fromSymbol: String,
     @SerialName("TOSYMBOL")
