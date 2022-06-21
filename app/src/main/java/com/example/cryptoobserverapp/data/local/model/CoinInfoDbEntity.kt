@@ -9,7 +9,7 @@ data class CoinInfoDbEntity (
         @PrimaryKey(autoGenerate = false)
         val fromSymbol : String,
         val toSymbol: String,
-        val price: String?,
+        val price: String,
         val lastUpdate: Long,
         val highDay: String,
         val lowDay: String,

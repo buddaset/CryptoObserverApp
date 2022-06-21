@@ -4,6 +4,7 @@ import com.example.cryptoobserverapp.data.local.model.CoinInfoDbEntity
 import com.example.cryptoobserverapp.data.remote.model.CoinInfoDto
 import com.example.cryptoobserverapp.data.remote.response.CoinInfoJsonContainerResponse
 import com.example.cryptoobserverapp.data.remote.response.CoinNamesResponse
+import com.example.cryptoobserverapp.domain.model.CoinInfo
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
@@ -24,7 +25,7 @@ class CoinMapper {
             imageUrl = dto.imageUrl
         )
 
-    @OptIn(ExperimentalSerializationApi::class)
+
     fun mapJsonContainerToListCoinInfo(jsonContainer: CoinInfoJsonContainerResponse): List<CoinInfoDto> {
         /*
         parse json  ---   {"BTC":{"USD":{"TYPE":"5","MARKET":"CCCAGG".... } } }
@@ -33,6 +34,7 @@ class CoinMapper {
             ignoreUnknownKeys = true
             isLenient = true
         }
+
         val result = mutableListOf<CoinInfoDto>()
         val jsonObject: JsonObject = jsonContainer.json
         val keysCoin = jsonObject.values
@@ -45,11 +47,35 @@ class CoinMapper {
         return result
     }
 
-    fun mapNamesListToString(nameListDto: CoinNamesResponse): String =
-        nameListDto.data
+
+
+
+
+
+
+    fun mapNamesListToString(nameListResponse: CoinNamesResponse): String =
+        nameListResponse.data
             .map { containerName ->
                 containerName.coinInfo.name
             }
             .joinToString { "," }
+
+
+    fun mapDbEntityToDomain(dbEntity: CoinInfoDbEntity): CoinInfo {
+        return CoinInfo(
+            fromSymbol = dbEntity.fromSymbol,
+            toSymbol = dbEntity.toSymbol,
+            price = dbEntity.price,
+            lastUpdate = dbEntity.lastUpdate,
+            highDay = dbEntity.highDay,
+            lowDay = dbEntity.lowDay,
+            lastMarket = dbEntity.lastMarket,
+            imageUrl = dbEntity.imageUrl
+
+        )
+    }
+
+    fun listMapDbEntityToDomain(coins: List<CoinInfoDbEntity>): List<CoinInfo> =
+        coins.map { mapDbEntityToDomain(it) }
 
 }
