@@ -5,12 +5,20 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.cryptoobserverapp.R
 import com.example.cryptoobserverapp.databinding.FragmentCoinListBinding
+import com.example.cryptoobserverapp.domain.model.CoinInfo
+import com.example.cryptoobserverapp.presentation.coin_list.adapter.CoinAdapter
+import com.example.cryptoobserverapp.presentation.extension.collectFlow
 
 class CoinListFragment : Fragment() {
 
     private lateinit var binding : FragmentCoinListBinding
+
+    private lateinit var coinAdapter: CoinAdapter
+
+    private lateinit var viewModel: CoinListViewModel  // todo factory
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -23,6 +31,32 @@ class CoinListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        setupAdapter()
+       collectData()
+
+    }
+
+
+
+    private fun setupAdapter() {
+
+        coinAdapter = CoinAdapter(::onClickCoinListener)
+        binding.coinRecycler.adapter = coinAdapter
+        binding.coinRecycler.layoutManager = LinearLayoutManager(context)
+
+        }
+
+    private fun collectData() {
+
+        collectFlow(viewModel.coins) {
+            coinAdapter.submitList(it)
+        }
+    }
+
+
+    private fun onClickCoinListener(coin:CoinInfo) {
+
 
     }
 
