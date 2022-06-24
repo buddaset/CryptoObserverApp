@@ -5,20 +5,32 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.cryptoobserverapp.App
 import com.example.cryptoobserverapp.R
 import com.example.cryptoobserverapp.databinding.FragmentCoinListBinding
 import com.example.cryptoobserverapp.domain.model.CoinInfo
+import com.example.cryptoobserverapp.presentation.coin_detail.CoinDetailsViewModel
 import com.example.cryptoobserverapp.presentation.coin_list.adapter.CoinAdapter
 import com.example.cryptoobserverapp.presentation.extension.collectFlow
+import com.example.cryptoobserverapp.presentation.factory.ViewModelFactory
+import com.example.cryptoobserverapp.presentation.main.navigation.navigator
 
 class CoinListFragment : Fragment() {
 
-    private lateinit var binding : FragmentCoinListBinding
+    private lateinit var binding: FragmentCoinListBinding
 
     private lateinit var coinAdapter: CoinAdapter
 
-    private lateinit var viewModel: CoinListViewModel  // todo factory
+    private val viewModel: CoinListViewModel by viewModels {
+        ViewModelFactory(
+            (requireActivity().application as App).useCase.getCoinInfoListUseCase(),
+            (requireActivity().application as App).useCase.getCoinIngoUseCase(),
+            (requireActivity().application as App).useCase.loadDataUseCase()
+        )
+
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,10 +45,9 @@ class CoinListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupAdapter()
-       collectData()
+        collectData()
 
     }
-
 
 
     private fun setupAdapter() {
@@ -45,7 +56,7 @@ class CoinListFragment : Fragment() {
         binding.coinRecycler.adapter = coinAdapter
         binding.coinRecycler.layoutManager = LinearLayoutManager(context)
 
-        }
+    }
 
     private fun collectData() {
 
@@ -55,14 +66,15 @@ class CoinListFragment : Fragment() {
     }
 
 
-    private fun onClickCoinListener(coin:CoinInfo) {
+    private fun onClickCoinListener(coin: CoinInfo) {
+        navigator().showCoinDetailScreen(coin.fromSymbol)
 
 
     }
 
     companion object {
         fun newInstance() = CoinListFragment()
-                }
+    }
 
 
 }

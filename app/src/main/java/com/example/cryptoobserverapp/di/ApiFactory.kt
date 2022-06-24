@@ -5,6 +5,7 @@ import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFact
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.create
@@ -12,11 +13,15 @@ import retrofit2.create
 object ApiFactory {
 
     private const val BASE_URL = "https://min-api.cryptocompare.com/"
-    const val BASE_IMAGE_URL = "https://cryptocompare.com"
+
 
     private val loggingInterceptor =  HttpLoggingInterceptor().apply {
         level = HttpLoggingInterceptor.Level.BODY
     }
+
+    private val okHttpClient = OkHttpClient.Builder()
+        .addInterceptor(loggingInterceptor)
+        .build()
 
     private val json = Json { ignoreUnknownKeys = true}
     private val contentType = "application/json".toMediaType()
@@ -24,6 +29,7 @@ object ApiFactory {
     @OptIn(ExperimentalSerializationApi::class)
     private val retrofit = Retrofit.Builder()
         .baseUrl(BASE_URL)
+        .client(okHttpClient)
         .addConverterFactory(json.asConverterFactory(contentType))
         .build()
 

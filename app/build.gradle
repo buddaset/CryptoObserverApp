@@ -73,6 +73,12 @@ dependencies {
     // Picasso
     implementation 'com.squareup.picasso:picasso:2.71828'
 
+    // ktx
+    implementation "androidx.fragment:fragment-ktx:1.4.1"
+
+    // LiveCycle
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.5.0-rc02"
+
 
 
 }
