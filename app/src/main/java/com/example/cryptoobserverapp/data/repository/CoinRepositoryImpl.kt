@@ -1,5 +1,6 @@
 package com.example.cryptoobserverapp.data.repository
 
+import android.util.Log
 import com.example.cryptoobserverapp.data.local.dao.CoinInfoDao
 import com.example.cryptoobserverapp.data.mapper.CoinMapper
 import com.example.cryptoobserverapp.data.remote.CoinService

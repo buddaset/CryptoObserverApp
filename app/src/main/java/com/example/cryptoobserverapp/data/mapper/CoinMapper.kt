@@ -1,5 +1,6 @@
 package com.example.cryptoobserverapp.data.mapper
 
+import android.util.Log
 import com.example.cryptoobserverapp.data.local.model.CoinInfoDbEntity
 import com.example.cryptoobserverapp.data.remote.model.CoinInfoDto
 import com.example.cryptoobserverapp.data.remote.response.CoinInfoJsonContainerResponse
@@ -59,9 +60,10 @@ class CoinMapper {
     fun mapNamesListToString(nameListResponse: CoinNamesResponse): String =
         nameListResponse.data
             .map { containerName ->
+
                 containerName.coinInfo.name
             }
-            .joinToString { "," }
+            .joinToString(",")
 
 
     fun mapDbEntityToDomain(dbEntity: CoinInfoDbEntity): CoinInfo {

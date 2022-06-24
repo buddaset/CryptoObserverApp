@@ -9,10 +9,11 @@ import retrofit2.http.Query
 interface CoinService {
 
 
-    @GET("data/top/tatalvolfull")
+    @GET("data/top/totalvolfull")
     suspend fun getCoins(
-        @Query("limit") limit: Int = 10
-    ): CoinNamesResponse
+        @Query(QUERY_PARAM_LIMIT) limit: Int = 10,
+        @Query(QUERY_PARAM_TO_SYMBOL) tSym: String = CURRENCY
+    ):  CoinNamesResponse
 
 
     @GET("data/pricemultifull")
@@ -23,7 +24,7 @@ interface CoinService {
 
 
     companion object {
-        private const val QUERY_PARAM_API_KEY = "api_key"
+
         private const val QUERY_PARAM_LIMIT = "limit"
         private const val QUERY_PARAM_TO_SYMBOL = "tsym"
         private const val QUERY_PARAM_TO_SYMBOLS = "tsyms"

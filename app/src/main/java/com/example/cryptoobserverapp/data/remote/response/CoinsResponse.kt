@@ -6,6 +6,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class CoinNamesResponse(
-    @SerialName("data")
+    @SerialName("Data")
     val data: List<CoinNameContainer>
 )
