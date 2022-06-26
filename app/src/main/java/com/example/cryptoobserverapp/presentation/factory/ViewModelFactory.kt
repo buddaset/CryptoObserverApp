@@ -8,34 +8,16 @@ import com.example.cryptoobserverapp.domain.usecase.GetCoinInfoUseCase
 import com.example.cryptoobserverapp.domain.usecase.LoadDataUseCase
 import com.example.cryptoobserverapp.presentation.coin_detail.CoinDetailsViewModel
 import com.example.cryptoobserverapp.presentation.coin_list.CoinListViewModel
+import javax.inject.Provider
+import kotlin.reflect.KClass
 
 
-class CreateUseCase(private val repository: CoinRepository) {
+class ViewModelFactory(private val  viewModelProviders: Map<Class<out ViewModel>, Provider<ViewModel>>
 
-
-
-    fun getCoinIngoUseCase(): GetCoinInfoUseCase = GetCoinInfoUseCase(repository)
-
-    fun loadDataUseCase(): LoadDataUseCase = LoadDataUseCase(repository)
-
-    fun getCoinInfoListUseCase(): GetCoinInfoListUseCase = GetCoinInfoListUseCase(repository)
-
-}
-
-class ViewModelFactory(
-    private val getCoinInfoListUseCase: GetCoinInfoListUseCase,
-    private val getCoinInfoUseCase: GetCoinInfoUseCase,
-    private val loadDataUseCase: LoadDataUseCase
 
 ) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T =
-        when (modelClass) {
-            CoinListViewModel::class.java -> CoinListViewModel(
-                getCoinInfoListUseCase,
-                loadDataUseCase
-            )
-            CoinDetailsViewModel::class.java -> CoinDetailsViewModel(getCoinInfoUseCase)
-            else -> throw IllegalStateException("Unknown viewModel")
-        } as T
+        viewModelProviders[modelClass]?.get() as T
+
 }
