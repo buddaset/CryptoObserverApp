@@ -13,21 +13,16 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class CoinListViewModel(
-     getCoinInfoListUseCase: GetCoinInfoListUseCase,
-    private val loadDataUseCase: LoadDataUseCase
-): ViewModel() {
+    getCoinInfoListUseCase: GetCoinInfoListUseCase,
+    loadDataUseCase: LoadDataUseCase
+) : ViewModel() {
 
     init {
-        viewModelScope.launch {
-            loadDataUseCase()
-
-        }
+        loadDataUseCase()
     }
 
-
     val coins: StateFlow<List<CoinInfo>> = getCoinInfoListUseCase()
-        .stateIn(viewModelScope,  SharingStarted.WhileSubscribed(5000) ,  listOf() )
-
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), listOf())
 
 
 }
