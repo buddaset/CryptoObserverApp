@@ -10,28 +10,29 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.create
 
-object ApiFactory {
-
-    private const val BASE_URL = "https://min-api.cryptocompare.com/"
-
-
-    private val loggingInterceptor =  HttpLoggingInterceptor().apply {
-        level = HttpLoggingInterceptor.Level.BODY
-    }
-
-    private val okHttpClient = OkHttpClient.Builder()
-        .addInterceptor(loggingInterceptor)
-        .build()
-
-    private val json = Json { ignoreUnknownKeys = true}
-    private val contentType = "application/json".toMediaType()
-
-    @OptIn(ExperimentalSerializationApi::class)
-    private val retrofit = Retrofit.Builder()
-        .baseUrl(BASE_URL)
-        .client(okHttpClient)
-        .addConverterFactory(json.asConverterFactory(contentType))
-        .build()
-
-    val apiService : CoinService by lazy { retrofit.create() }
-}
+//object ApiFactory {
+//
+//    private const val BASE_URL = "https://min-api.cryptocompare.com/"
+//
+//
+//    private val loggingInterceptor =  HttpLoggingInterceptor().apply {
+//        level = HttpLoggingInterceptor.Level.BODY
+//    }
+//
+//    private val okHttpClient = OkHttpClient.Builder()
+//        .addInterceptor(loggingInterceptor)
+//        .build()
+//
+//    private val json = Json { ignoreUnknownKeys = true}
+//    private val contentType = "application/json".toMediaType()
+//    val d = json.asConverterFactory(contentType)
+//
+//    @OptIn(ExperimentalSerializationApi::class)
+//    private val retrofit = Retrofit.Builder()
+//        .baseUrl(BASE_URL)
+//        .client(okHttpClient)
+//        .addConverterFactory(json.asConverterFactory(contentType))
+//        .build()
+//
+//    val apiService : CoinService by lazy { retrofit.create() }
+//}
