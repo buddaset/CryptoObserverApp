@@ -8,7 +8,6 @@ import com.example.cryptoobserverapp.domain.usecase.LoadDataUseCase
 import com.example.cryptoobserverapp.presentation.coin_detail.CoinDetailsViewModel
 import com.example.cryptoobserverapp.presentation.coin_list.CoinListViewModel
 import com.example.cryptoobserverapp.presentation.factory.ViewModelFactory
-import dagger.MapKey
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoMap

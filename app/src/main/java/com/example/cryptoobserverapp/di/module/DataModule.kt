@@ -19,12 +19,11 @@ class DataModule {
 
 
     @Provides
-    fun provideCoinDao(database: CoinDatabase): CoinInfoDao = database.coinDao()
+    fun provideCoinDao(appContext: Context): CoinInfoDao =
+        CoinDatabase.getInstance(appContext).coinDao()
 
-    @ApplicationScope
-    @Provides
-    fun provideCoinDatabase(appContext: Context) =
-        Room.databaseBuilder(appContext, CoinDatabase::class.java, "coin_db")
+
+
 
 //    @Provides
 //    fun provideCoinService(): CoinService =
