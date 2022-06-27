@@ -5,7 +5,7 @@ import com.example.cryptoobserverapp.data.local.CoinDatabase
 import com.example.cryptoobserverapp.data.local.dao.CoinInfoDao
 import com.example.cryptoobserverapp.data.mapper.CoinMapper
 import com.example.cryptoobserverapp.data.remote.CoinService
-import com.example.cryptoobserverapp.data.worker.RefreshDataWorkerFactory
+import com.example.cryptoobserverapp.data.worker.CoinWorkerFactory
 import com.example.cryptoobserverapp.di.scope.ApplicationScope
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
@@ -69,9 +69,7 @@ class DataModule {
         retrofit.create(CoinService::class.java)
 
 
-    @Provides
-    fun provideRefreshDataWorkerFactory(coinDao: CoinInfoDao, service: CoinService, mapper: CoinMapper) : RefreshDataWorkerFactory =
-        RefreshDataWorkerFactory(coinDao, service, mapper)
+
 
 
     companion object {

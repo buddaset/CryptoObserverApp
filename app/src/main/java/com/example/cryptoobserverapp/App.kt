@@ -2,14 +2,14 @@ package com.example.cryptoobserverapp
 
 import android.app.Application
 import androidx.work.Configuration
-import com.example.cryptoobserverapp.data.worker.RefreshDataWorkerFactory
+import com.example.cryptoobserverapp.data.worker.CoinWorkerFactory
 import com.example.cryptoobserverapp.di.component.DaggerApplicationComponent
 import javax.inject.Inject
 
 class App : Application() , Configuration.Provider {
 
     @Inject
-    lateinit var workerFactory: RefreshDataWorkerFactory
+    lateinit var workerFactory: CoinWorkerFactory
 
     val component by lazy {
         DaggerApplicationComponent.factory().create(applicationContext)
