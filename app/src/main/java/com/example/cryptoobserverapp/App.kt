@@ -1,35 +1,30 @@
 package com.example.cryptoobserverapp
 
 import android.app.Application
-import androidx.room.Room
-import com.example.cryptoobserverapp.data.local.CoinDatabase
-import com.example.cryptoobserverapp.data.mapper.CoinMapper
-import com.example.cryptoobserverapp.data.repository.CoinRepositoryImpl
-import com.example.cryptoobserverapp.di.ApiFactory
-import com.example.cryptoobserverapp.domain.repository.CoinRepository
-import com.example.cryptoobserverapp.presentation.factory.CreateUseCase
+import androidx.work.Configuration
+import com.example.cryptoobserverapp.data.worker.CoinWorkerFactory
+import com.example.cryptoobserverapp.di.component.DaggerApplicationComponent
+import javax.inject.Inject
 
-class App : Application() {
+class App : Application() , Configuration.Provider {
 
-    lateinit var useCase: CreateUseCase
+    @Inject
+    lateinit var workerFactory: CoinWorkerFactory
+
+    val component by lazy {
+        DaggerApplicationComponent.factory().create(applicationContext)
+    }
 
     override fun onCreate() {
+        component.inject(this)
         super.onCreate()
-
-        val db by lazy {
-            Room.databaseBuilder(applicationContext, CoinDatabase::class.java, "coin_db")
-                .fallbackToDestructiveMigration()
-                .build()
-        }
-
-        val service = ApiFactory.apiService
-        val mapper = CoinMapper()
-
-        val repository: CoinRepository = CoinRepositoryImpl(db.coinDao(),service, mapper)
-
-        useCase = CreateUseCase(repository)
-
-
-
     }
+
+    override fun getWorkManagerConfiguration(): Configuration {
+        return Configuration.Builder()
+            .setWorkerFactory(workerFactory)
+            .build()
+    }
+
+
 }

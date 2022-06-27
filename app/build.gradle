@@ -79,6 +79,10 @@ dependencies {
     // LiveCycle
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.5.0-rc02"
 
+    // Dagger 2
+    implementation 'com.google.dagger:dagger:2.40.5'
+    kapt 'com.google.dagger:dagger-compiler:2.40.5'
+
 
 
 }

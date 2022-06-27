@@ -1,5 +1,6 @@
 package com.example.cryptoobserverapp.presentation.coin_list
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -16,6 +17,7 @@ import com.example.cryptoobserverapp.presentation.coin_list.adapter.CoinAdapter
 import com.example.cryptoobserverapp.presentation.extension.collectFlow
 import com.example.cryptoobserverapp.presentation.factory.ViewModelFactory
 import com.example.cryptoobserverapp.presentation.main.navigation.navigator
+import javax.inject.Inject
 
 class CoinListFragment : Fragment() {
 
@@ -23,13 +25,18 @@ class CoinListFragment : Fragment() {
 
     private lateinit var coinAdapter: CoinAdapter
 
-    private val viewModel: CoinListViewModel by viewModels {
-        ViewModelFactory(
-            (requireActivity().application as App).useCase.getCoinInfoListUseCase(),
-            (requireActivity().application as App).useCase.getCoinIngoUseCase(),
-            (requireActivity().application as App).useCase.loadDataUseCase()
-        )
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
 
+    private val viewModel: CoinListViewModel by viewModels { viewModelFactory }
+
+    private val component by lazy {
+        (requireActivity().application as App).component
+    }
+
+    override fun onAttach(context: Context) {
+        component.fragmentComponentFactory().create().inject(this)
+        super.onAttach(context)
     }
 
     override fun onCreateView(

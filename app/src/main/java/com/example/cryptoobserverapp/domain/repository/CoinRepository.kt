@@ -10,7 +10,7 @@ interface CoinRepository {
 
     fun getCoinInfoList(): Flow<List<CoinInfo>>
 
-    suspend fun loadData()
+     fun loadData()
 
 
 }

@@ -1,5 +1,6 @@
 package com.example.cryptoobserverapp.presentation.coin_detail
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -11,6 +12,7 @@ import com.example.cryptoobserverapp.databinding.FragmentCoinDetailsBinding
 import com.example.cryptoobserverapp.domain.model.CoinInfo
 import com.example.cryptoobserverapp.presentation.factory.ViewModelFactory
 import com.squareup.picasso.Picasso
+import javax.inject.Inject
 
 
 class CoinDetailsFragment : Fragment() {
@@ -18,12 +20,18 @@ class CoinDetailsFragment : Fragment() {
     private lateinit var binding: FragmentCoinDetailsBinding
     private  var fSym: String = EMPTY_SYMBOL
 
-    private val viewModel: CoinDetailsViewModel by viewModels {
-        ViewModelFactory(
-            (requireActivity().application as App) .useCase.getCoinInfoListUseCase() ,
-            (requireActivity().application as App).useCase.getCoinIngoUseCase(),
-            (requireActivity().application as App).useCase.loadDataUseCase())
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
 
+    private val viewModel: CoinDetailsViewModel by viewModels { viewModelFactory }
+
+    private val component by lazy {
+        (requireActivity().application as App).component
+    }
+
+    override fun onAttach(context: Context) {
+        component.fragmentComponentFactory().create().inject(this)
+        super.onAttach(context)
     }
 
 
